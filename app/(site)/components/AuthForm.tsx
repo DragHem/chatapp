@@ -5,8 +5,10 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Input from '@/app/components/Input';
 import Button from '@/app/components/Button';
 import AuthSocialButton from '@/app/(site)/components/AuthSocialButton';
-import { BsGithub, BsGoogle } from 'react-icons/all';
+import { BsGithub, BsGoogle } from 'react-icons/bs';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import { signIn, useSession } from 'next-auth/react';
 
 type Variant = 'LOGIN' | 'REGISTER';
 
@@ -39,15 +41,42 @@ const AuthForm = () => {
     setIsLoading(true);
 
     if (variant === 'REGISTER') {
-      axios.post('/api/auth/register', data);
+      axios
+        .post('/api/auth/register', data)
+        .catch(() => toast.error('Something went wrong!'))
+        .finally(() => setIsLoading(false));
     }
     if (variant === 'LOGIN') {
+      signIn('credentials', { ...data, redirect: false })
+        .then((cb) => {
+          if (cb?.error) {
+            toast.error('Invalid credentials.');
+          }
+          if (cb?.ok && !cb?.error) {
+            toast.success('Logged in!');
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
   };
 
   const socialActions = (action: string) => {
     setIsLoading(true);
+
+    signIn(action, { redirect: false })
+      .then((cb) => {
+        if (cb?.error) {
+          toast.error('Invalid credentials.');
+        }
+        if (cb?.ok && !cb?.error) {
+          toast.success('Logged in!');
+        }
+      })
+      .finally(() => setIsLoading(false));
   };
+
+  const { data: session } = useSession();
+  console.log(session);
 
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
