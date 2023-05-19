@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Input from '@/app/components/Input';
 import Button from '@/app/components/Button';
@@ -15,6 +15,13 @@ type Variant = 'LOGIN' | 'REGISTER';
 const AuthForm = () => {
   const [variant, setVariant] = useState<Variant>('LOGIN');
   const [isLoading, setIsLoading] = useState(false);
+  const session = useSession();
+
+  useEffect(() => {
+    if (session?.status === 'authenticated') {
+      console.log('Authenticated');
+    }
+  }, [session.status]);
 
   const toggleVariantHandler = useCallback(() => {
     if (variant === 'LOGIN') {
@@ -37,14 +44,25 @@ const AuthForm = () => {
     },
   });
 
-  const onSubmitHandler: SubmitHandler<FieldValues> = (data) => {
+  const onSubmitHandler: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
 
     if (variant === 'REGISTER') {
-      axios
-        .post('/api/auth/register', data)
-        .catch(() => toast.error('Something went wrong!'))
-        .finally(() => setIsLoading(false));
+      try {
+        const resp = await axios.post('/api/auth/register', data);
+
+        if (resp.status === 200) {
+          toast.success('Successfully registered!');
+        }
+      } catch (e: any) {
+        toast.error('Something went wrong!');
+      } finally {
+        setIsLoading(false);
+      }
+      // axios
+      // .post('/api/auth/register', data)
+      // .catch(() => toast.error('Something went wrong!'))
+      // .finally(() => setIsLoading(false));
     }
     if (variant === 'LOGIN') {
       signIn('credentials', { ...data, redirect: false })
@@ -74,9 +92,6 @@ const AuthForm = () => {
       })
       .finally(() => setIsLoading(false));
   };
-
-  const { data: session } = useSession();
-  console.log(session);
 
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
