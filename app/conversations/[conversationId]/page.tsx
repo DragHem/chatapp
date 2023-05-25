@@ -3,6 +3,7 @@ import getMessages from '@/app/actions/getMessages';
 import EmptyState from '@/app/components/EmptyState';
 import Header from '@/app/conversations/[conversationId]/components/Header';
 import Body from '@/app/conversations/[conversationId]/components/Body';
+import Form from '@/app/conversations/[conversationId]/components/Form';
 
 interface Params {
   conversationId: string;
@@ -27,6 +28,7 @@ const ConversationID = async ({ params }: { params: Params }) => {
       <div className="flex h-full flex-col">
         <Header conversation={conversation}></Header>
         <Body />
+        <Form />
       </div>
     </div>
   );
