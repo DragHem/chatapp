@@ -4,7 +4,6 @@ import { User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import axios from 'axios';
-import { setup } from 'goober';
 import Avatar from '@/app/components/Avatar';
 
 interface Props {
@@ -37,7 +36,7 @@ const UserBox = ({ data }: Props) => {
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">
           <div className="mb-1 flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-900">{data.name}</p>
+            <p className="text-grey-900 text-sm font-medium">{data.name}</p>
           </div>
         </div>
       </div>

@@ -1,25 +1,30 @@
 'use client';
 
-import { FullMessageType } from '@/app/types';
-import { useSession } from 'next-auth/react';
 import clsx from 'clsx';
-import Avatar from '@/app/components/Avatar';
-import { format } from 'date-fns';
 import Image from 'next/image';
+import { useState } from 'react';
+import { format } from 'date-fns';
+import { useSession } from 'next-auth/react';
+import { FullMessageType } from '@/app/types';
 
-interface Props {
-  isLast: boolean;
+import Avatar from '@/app/components/Avatar';
+
+interface MessageBoxProps {
   data: FullMessageType;
+  isLast?: boolean;
 }
 
-const MessageBox = ({ isLast, data }: Props) => {
+const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
   const session = useSession();
+  const [imageModalOpen, setImageModalOpen] = useState(false);
 
-  const isOwn = session?.data?.user?.email === data?.sender?.email;
+  const isOwn = session.data?.user?.email === data?.sender?.email;
   const seenList = (data.seen || [])
     .filter((user) => user.email !== data?.sender?.email)
     .map((user) => user.name)
     .join(', ');
+
+  console.log(seenList);
 
   const container = clsx('flex gap-3 p-4', isOwn && 'justify-end');
   const avatar = clsx(isOwn && 'order-2');
@@ -48,13 +53,31 @@ const MessageBox = ({ isLast, data }: Props) => {
               alt="Image"
               height="288"
               width="288"
+              onClick={() => setImageModalOpen(true)}
               src={data.image}
-              className="translate cursor-pointer object-cover transition hover:scale-110"
+              className="
+                translate
+                cursor-pointer
+                object-cover
+                transition
+                hover:scale-110
+              "
             />
           ) : (
             <div>{data.body}</div>
           )}
         </div>
+        {isLast && isOwn && seenList.length > 0 && (
+          <div
+            className="
+            text-xs
+            font-light
+            text-gray-500
+            "
+          >
+            {`Seen by ${seenList}`}
+          </div>
+        )}
       </div>
     </div>
   );
