@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { FullMessageType } from '@/app/types';
-import useConversation from '@/app/hooks/useConversation';
 import MessageBox from '@/app/conversations/[conversationId]/components/MessageBox';
+import useConversation from '@/app/hooks/useConversation';
+import { FullMessageType } from '@/app/types';
 import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
 
 interface Props {
   initialMessages: FullMessageType[];

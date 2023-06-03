@@ -1,12 +1,12 @@
 'use client';
 
-import { Conversation, User } from '@prisma/client';
-import useOtherUser from '@/app/hooks/useOtherUser';
-import { useMemo, useState } from 'react';
-import Link from 'next/link';
-import { HiChevronLeft, HiEllipsisHorizontal } from 'react-icons/hi2';
 import Avatar from '@/app/components/Avatar';
 import ProfileDrawer from '@/app/conversations/[conversationId]/components/ProfileDrawer';
+import useOtherUser from '@/app/hooks/useOtherUser';
+import { Conversation, User } from '@prisma/client';
+import Link from 'next/link';
+import { useMemo, useState } from 'react';
+import { HiChevronLeft, HiEllipsisHorizontal } from 'react-icons/hi2';
 
 interface Props {
   conversation: Conversation & {
@@ -45,6 +45,14 @@ const Header = ({ conversation }: Props) => {
               {statusText}
             </div>
           </div>
+          <Link
+            href={{
+              pathname: '/map',
+              query: { lat: otherUser.lat, long: otherUser.long },
+            }}
+          >
+            <span>locate</span>
+          </Link>
         </div>
         <HiEllipsisHorizontal
           size={32}

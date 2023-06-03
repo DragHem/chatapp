@@ -1,7 +1,7 @@
-import React from 'react';
-import Sidebar from '@/app/components/sidebar/Sidebar';
 import getUsers from '@/app/actions/getUsers';
+import Sidebar from '@/app/components/sidebar/Sidebar';
 import UserList from '@/app/users/components/UserList';
+import React from 'react';
 
 export default async function UsersLayout({
   children,
