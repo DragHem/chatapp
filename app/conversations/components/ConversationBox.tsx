@@ -9,6 +9,7 @@ import useOtherUser from '@/app/hooks/useOtherUser';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 import Avatar from '@/app/components/Avatar';
+import AvatarGroup from '@/app/components/AvatarGroup';
 
 interface Props {
   data: FullConversationType;
@@ -61,7 +62,11 @@ const ConversationBox = ({ data, selected }: Props) => {
       )}
       onClick={handleClick}
     >
-      <Avatar user={otherUser} />
+      {data.isGroup ? (
+        <AvatarGroup users={data.users} />
+      ) : (
+        <Avatar user={otherUser} />
+      )}
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">
           <div className="mb-1 flex items-center justify-between">
