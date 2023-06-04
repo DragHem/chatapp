@@ -1,11 +1,5 @@
-import EventList from './components/EventList';
-
 const Events = () => {
-  return (
-    <div className="hidden h-full lg:block lg:pl-80">
-      <EventList />
-    </div>
-  );
+  return <div className="h-full lg:block lg:pl-80"></div>;
 };
 
 export default Events;

@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import useRoutes from '@/app/hooks/useRoutes';
-import DesktopItem from '@/app/components/sidebar/DesktopItem';
-import { User } from '@prisma/client';
 import Avatar from '@/app/components/Avatar';
+import DesktopItem from '@/app/components/sidebar/DesktopItem';
 import SettingsModal from '@/app/components/sidebar/SettingsModal';
+import useRoutes from '@/app/hooks/useRoutes';
+import { User } from '@prisma/client';
+import { useState } from 'react';
 
 interface Props {
   currentUser: User;
@@ -14,8 +14,6 @@ interface Props {
 const DesktopSidebar = ({ currentUser }: Props) => {
   const routes = useRoutes();
   const [isOpen, setIsOpen] = useState(false);
-
-  console.log(currentUser);
 
   return (
     <>

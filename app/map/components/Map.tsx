@@ -16,9 +16,11 @@ const Map = () => {
         long: position.coords.longitude,
       };
       setLoca(newLoca);
+
       axios.post('/api/location', newLoca);
     });
   }, []);
+
   return (
     <>
       {loca && (

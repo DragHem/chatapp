@@ -27,6 +27,7 @@ model User {
 
   accounts Account[]
   messages Message[]
+  events Event[]
 }
 
 model Account {
@@ -76,4 +77,19 @@ model Message {
 
   senderId String @db.ObjectId
   sender User @relation(fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model Event {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt    DateTime @default(now())
+
+  name         String
+  description  String
+  image        String?
+
+  lat          Float?
+  long         Float?
+
+  creatorId    String @db.ObjectId
+  creator      User @relation(fields: [creatorId], references: [id], onDelete: Cascade)
 }
