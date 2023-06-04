@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react';
 import { FullMessageType } from '@/app/types';
 
 import Avatar from '@/app/components/Avatar';
+import ImageModal from '@/app/conversations/[conversationId]/components/ImageModal';
 
 interface MessageBoxProps {
   data: FullMessageType;
@@ -46,6 +47,11 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
           </div>
         </div>
         <div className={message}>
+          <ImageModal
+            src={data.image}
+            isOpen={imageModalOpen}
+            onClose={() => setImageModalOpen(false)}
+          />
           {data.image ? (
             <Image
               alt="Image"
@@ -53,26 +59,14 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
               width="288"
               onClick={() => setImageModalOpen(true)}
               src={data.image}
-              className="
-                translate
-                cursor-pointer
-                object-cover
-                transition
-                hover:scale-110
-              "
+              className="translate cursor-pointer object-cover transition hover:scale-110"
             />
           ) : (
             <div>{data.body}</div>
           )}
         </div>
         {isLast && isOwn && seenList.length > 0 && (
-          <div
-            className="
-            text-xs
-            font-light
-            text-gray-500
-            "
-          >
+          <div className="text-xs font-light text-gray-500">
             {`Seen by ${seenList}`}
           </div>
         )}
