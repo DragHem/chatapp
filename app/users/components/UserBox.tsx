@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import axios from 'axios';
 import Avatar from '@/app/components/Avatar';
+import LoadingModal from '@/app/components/LoadingModal';
 
 interface Props {
   data: User;
@@ -28,19 +29,22 @@ const UserBox = ({ data }: Props) => {
   }, [data, router]);
 
   return (
-    <div
-      onClick={handleClick}
-      className="rounded-100 relative flex w-full cursor-pointer items-center space-x-3 bg-white p-3 transition hover:bg-neutral-100"
-    >
-      <Avatar user={data} />
-      <div className="min-w-0 flex-1">
-        <div className="focus:outline-none">
-          <div className="mb-1 flex items-center justify-between">
-            <p className="text-grey-900 text-sm font-medium">{data.name}</p>
+    <>
+      {isLoading && <LoadingModal />}
+      <div
+        onClick={handleClick}
+        className="rounded-100 relative flex w-full cursor-pointer items-center space-x-3 bg-white p-3 transition hover:bg-neutral-100"
+      >
+        <Avatar user={data} />
+        <div className="min-w-0 flex-1">
+          <div className="focus:outline-none">
+            <div className="mb-1 flex items-center justify-between">
+              <p className="text-grey-900 text-sm font-medium">{data.name}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
