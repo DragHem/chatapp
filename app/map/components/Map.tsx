@@ -8,6 +8,7 @@ import Routing from './Routing';
 
 const Map = () => {
   const params = useSearchParams();
+  console.log('PARAMS!', params);
   const [loca, setLoca] = useState<{ lat: number; long: number }>();
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -20,6 +21,8 @@ const Map = () => {
       axios.post('/api/location', newLoca);
     });
   }, []);
+
+  if (!params) return null;
 
   return (
     <>

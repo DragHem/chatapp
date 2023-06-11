@@ -2,7 +2,7 @@ import prisma from '@/app/libs/prismadb';
 
 const getMessages = async (conversationId: string) => {
   try {
-    const messages = await prisma.message.findMany({
+    return await prisma.message.findMany({
       where: {
         conversationId,
       },
@@ -14,8 +14,6 @@ const getMessages = async (conversationId: string) => {
         createdAt: 'asc',
       },
     });
-
-    return messages;
   } catch (e: any) {
     return [];
   }

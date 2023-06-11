@@ -9,7 +9,7 @@ interface Params {
   conversationId: string;
 }
 
-const ConversationID = async ({ params }: { params: Params }) => {
+const ConversationId = async ({ params }: { params: Params }) => {
   const conversation = await getConversationById(params.conversationId);
   const messages = await getMessages(params.conversationId);
 
@@ -34,4 +34,4 @@ const ConversationID = async ({ params }: { params: Params }) => {
   );
 };
 
-export default ConversationID;
+export default ConversationId;
